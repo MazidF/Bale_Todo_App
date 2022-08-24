@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.todolist.di.qualifier.DispatcherIO
 import com.example.todolist.utils.changeTheme
 import com.example.todolist.utils.sharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,7 +24,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 @Singleton
 class SettingsDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
-    dispatcher: CoroutineDispatcher,
+    @DispatcherIO dispatcher: CoroutineDispatcher,
 ) {
     private val dataStore = context.dataStore
 

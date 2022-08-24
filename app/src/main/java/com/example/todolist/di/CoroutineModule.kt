@@ -1,5 +1,6 @@
 package com.example.todolist.di
 
+import com.example.todolist.di.qualifier.DispatcherIO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +15,7 @@ class CoroutineModule {
 
     @Provides
     @Singleton
+    @DispatcherIO
     fun provideDispatcherIO(): CoroutineDispatcher {
         return Dispatchers.IO
     }
