@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="line_color">#393C39</color>
+    <color name="root_background_tint">@color/black</color>
+    <color name="child_background_tint">#25273c</color>
+    <color name="text_color">@color/white</color>
+    <color name="hint_color">#80FFFFFF</color>
+    <color name="pressed_color">#33FFFFFF</color>
+</resources>

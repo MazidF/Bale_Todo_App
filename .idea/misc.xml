@@ -3,7 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable-anydpi/ic_add.xml" value="0.1745" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/circle_clickable_background.xml" value="0.1745" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/curve_background.xml" value="0.1745" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/ic_checked_state.xml" value="0.1585" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/ic_unchecked_state.xml" value="0.2235" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/icon_check.xml" value="0.197" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/icon_moon.xml" value="0.197" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/icon_sun.xml" value="0.197" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/radio_button_check.xml" value="0.197" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/drawable/task_item_divider.xml" value="0.1745" />
         <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/layout/fragmnet_main.xml" value="0.33" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/layout/task_footer_controller.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/vcc/AndroidStudioProjects/TodoList2/app/src/main/res/layout/task_item.xml" value="0.33" />
       </map>
     </option>
   </component>

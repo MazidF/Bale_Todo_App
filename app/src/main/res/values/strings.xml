@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Todo List</string>
+    <string name="todo">TODO</string>
+    <string name="create_a_new_todo">Create a new todo...</string>
+    <string name="all">All</string>
+    <string name="active">Active</string>
+    <string name="completed">Completed</string>
+    <string name="drag_and_drop_to_reorder_list">Drag and drop to reorder list</string>
+    <string name="items_left">item(s) left</string>
+    <string name="no_item_left">no item left</string>
+    <string name="clear_completed">Clear Completed</string>
 </resources>

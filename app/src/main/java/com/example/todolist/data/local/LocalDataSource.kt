@@ -33,6 +33,13 @@ class LocalDataSource(
     }
 
     override suspend fun switchTasks(from: Task, to: Task) {
-        taskDao.switch(from, to)
+        val newFrom = from.copy(position = -1)
+        val newTo = to.copy(position = from.position)
+        update(newFrom, newTo)
+        update(from.copy(position = to.position))
+    }
+
+    override suspend fun clearCompleted() {
+        taskDao.deleteCompleted()
     }
 }

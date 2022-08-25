@@ -33,4 +33,8 @@ class Repository(
     suspend fun switch(from: Task, to: Task) {
         return local.switchTasks(from, to)
     }
+
+    suspend fun deleteCompleted() {
+        return local.clearCompleted()
+    }
 }

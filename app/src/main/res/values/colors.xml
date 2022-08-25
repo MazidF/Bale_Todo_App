@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="line_color">#ECECEC</color>
+    <!--  TODO: define #ECECEC as a color  -->
+    <color name="root_background_tint">#ECECEC</color>
+    <color name="child_background_tint">@color/white</color>
+    <color name="text_color">@color/black</color>
+    <color name="hint_color">#80000000</color>
+    <color name="pressed_color">#33000000</color>
+    <color name="blue">#0769BF</color>
 </resources>

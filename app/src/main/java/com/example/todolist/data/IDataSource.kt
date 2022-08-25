@@ -16,4 +16,6 @@ interface IDataSource {
     fun getAll(): Flow<List<Task>>
 
     suspend fun switchTasks(from: Task, to: Task)
+
+    suspend fun clearCompleted()
 }
