@@ -1,5 +1,6 @@
 package com.example.todolist.ui.fragment.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -48,9 +49,10 @@ class ItemAdapter<T : Any>(
         private val setup: HolderSetup<T>? = null,
     ) : RecyclerView.Adapter<ItemHolder<T>>() {
 
+        @SuppressLint("NotifyDataSetChanged")
         fun submitItem(t: T) {
             item = t
-            this.notifyItemChanged(0)
+            notifyItemChanged(0, null)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder<T> {

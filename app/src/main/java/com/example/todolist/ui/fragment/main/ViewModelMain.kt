@@ -75,4 +75,32 @@ class ViewModelMain @Inject constructor(
             repository.deleteCompleted()
         }
     }
+
+    private var filter = Filter.ALL
+
+    fun getFilter(): Filter {
+        return filter
+    }
+
+    fun changeFilter(filter: Filter) {
+        this.filter = filter
+    }
+
+    enum class Filter(
+        val action: List<Task>.() -> List<Task>,
+    ) {
+        ALL({
+            this
+        }),
+        ACTIVE({
+            this.filter {
+                it.isDone.not()
+            }
+        }),
+        COMPLETED({
+            this.filter {
+                it.isDone
+            }
+        });
+    }
 }

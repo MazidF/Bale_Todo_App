@@ -31,9 +31,11 @@ import com.example.todolist.utils.setup
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlin.math.max
 import kotlin.math.min
 
+typealias DoubleInt = Pair<Int, Int>
 
 @AndroidEntryPoint
 class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, HolderSetup<Task> {
@@ -42,7 +44,7 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
 
     private val viewModel: ViewModelMain by viewModels()
     private lateinit var itemAdapter: ItemAdapter<Task>
-    private lateinit var footerAdapter: ItemAdapter.FooterAdapter<Int>
+    private lateinit var footerAdapter: ItemAdapter.FooterAdapter<DoubleInt>
 
     private var itemMoved = false
 
@@ -58,6 +60,35 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
         setupAdapter()
         setupRecycler()
         setupListeners()
+        setupFilter()
+    }
+
+    private fun setupFilter() = with(binding) {
+        val filterItems = listOf<Pair<View, ViewModelMain.Filter>>(
+            all to ViewModelMain.Filter.ALL,
+            active to ViewModelMain.Filter.ACTIVE,
+            completed to ViewModelMain.Filter.COMPLETED,
+        )
+        val filter = viewModel.getFilter()
+        var lastItem = filterItems.first {
+            it.second == filter
+        }.first
+        filterItems.onEach { pair ->
+            pair.first.setOnClickListener {
+                lastItem.isSelected = false
+                it.isSelected = true
+
+                lastItem = it
+                changeFilter(pair.second)
+            }
+        }
+        lastItem.callOnClick() // apply current filter
+    }
+
+    private fun changeFilter(filter: ViewModelMain.Filter) {
+        viewModel.changeFilter(filter)
+        val filtered = filter.action(viewModel.taskStateFlow.value)
+        updateUi(filtered)
     }
 
     private fun setupListeners() = with(binding) {
@@ -100,7 +131,7 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
             setup = this,
         )
         footerAdapter = ItemAdapter.FooterAdapter(
-            0,
+            Pair(0, 0),
             onItemClick = OnItemClick.fake(),
             factory = TaskFooterControllerFactory(),
         )
@@ -108,11 +139,18 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
 
     private fun observe() = with(binding) {
         launch {
-            viewModel.taskStateFlow.collectLatest { list ->
-                itemAdapter.submitList(list)
-                footerAdapter.submitItem(list.count { it.isDone.not() })
+            viewModel.taskStateFlow.map {
+                viewModel.getFilter().action(it)
+            }.collectLatest { list ->
+                updateUi(list)
             }
         }
+    }
+
+    private fun updateUi(list: List<Task>) {
+        itemAdapter.submitList(list)
+        val completes = list.count { it.isDone }
+        footerAdapter.submitItem((list.size - completes) to completes)
     }
 
     private fun disableListAnimation() {
@@ -204,13 +242,15 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
         override fun onClear() {
             dragFrom?.let { f ->
                 dropTo?.let { t ->
-                    val from = min(f, t)
-                    val to = max(f, t)
-                    val list = List(to - from + 1) {
-                        itemAdapter.getItem(from + it)
+                    if (t != itemAdapter.itemCount) { // block footer
+                        val from = min(f, t)
+                        val to = max(f, t)
+                        val list = List(to - from + 1) {
+                            itemAdapter.getItem(from + it)
+                        }
+                        itemMoved = true
+                        viewModel.switch(f, t, list)
                     }
-                    itemMoved = true
-                    viewModel.switch(f, t, list)
                 }
             }
             dragFrom = null
@@ -218,8 +258,8 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
         }
     }
 
-    private inner class TaskFooterControllerFactory : BindableFactory<Int> {
-        override fun inflate(parent: ViewGroup, viewType: Int): Bindable<Int> {
+    private inner class TaskFooterControllerFactory : BindableFactory<DoubleInt> {
+        override fun inflate(parent: ViewGroup, viewType: Int): Bindable<DoubleInt> {
             val binding = TaskFooterControllerBinding.inflate(
                 parent.inflater(), parent, false
             )
@@ -228,7 +268,7 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
 
         private inner class FooterItem(
             private val binding: TaskFooterControllerBinding,
-        ) : Bindable<Int> {
+        ) : Bindable<DoubleInt> {
 
             init {
                 binding.apply {
@@ -242,16 +282,18 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
                 return binding.root
             }
 
-            override fun bind(item: Int): Unit = with(binding) {
-                val textResourceId = if (item == 0) {
+            override fun bind(item: DoubleInt): Unit = with(binding) {
+                val actives = item.first
+                val completes = item.second
+                val textResourceId = if (actives == 0) {
                     R.string.no_item_left
                 } else {
-                    tasksCount.text = item.toString()
+                    tasksCount.text = actives.toString()
                     R.string.items_left
                 }
                 counterLabel.setText(textResourceId)
-                tasksCount.isVisible = item != 0
-                tasksCount.isVisible = (itemAdapter.itemCount - item) != 0
+                tasksCount.isVisible = actives != 0
+                clearBtn.isVisible = completes != 0
             }
         }
     }
