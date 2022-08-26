@@ -35,7 +35,7 @@ fun currentThemeMode(): Int {
     return AppCompatDelegate.getDefaultNightMode()
 }
 
-fun changeTheme(themeMode: Int) {
+fun setTheme(themeMode: Int) {
     if (currentThemeMode() != themeMode) {
         AppCompatDelegate.setDefaultNightMode(themeMode)
     }
@@ -43,7 +43,7 @@ fun changeTheme(themeMode: Int) {
 
 fun applyTheme(context: Context) {
     val mode = context.sharedPreferences().getThemeMode()
-    changeTheme(mode)
+    setTheme(mode)
 }
 
 fun Fragment.launch(

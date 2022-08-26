@@ -6,18 +6,18 @@ enum class Theme(
     val mode: Int,
 ) {
     LIGHT(AppCompatDelegate.MODE_NIGHT_NO),
-    NIGHT(AppCompatDelegate.MODE_NIGHT_YES),
-    AUTO(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    NIGHT(AppCompatDelegate.MODE_NIGHT_YES)/*,
+    AUTO(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)*/;
 
     companion object {
         fun getTheme(themeName: String?): Theme {
             return values().firstOrNull {
                 it.name == themeName
-            } ?: AUTO
+            } ?: LIGHT
         }
 
         fun defaultMode(): Int {
-            return AUTO.mode
+            return LIGHT.mode
         }
     }
 }

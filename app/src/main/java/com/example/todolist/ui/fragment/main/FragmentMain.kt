@@ -107,6 +107,9 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
             viewModel.insert(task)
             resetInputs()
         }
+        themeBtn.setOnClickListener {
+            viewModel.changeTheme()
+        }
     }
 
     private fun resetInputs() = with(binding) {

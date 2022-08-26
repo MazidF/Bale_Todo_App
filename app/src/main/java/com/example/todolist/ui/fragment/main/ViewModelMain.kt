@@ -2,8 +2,12 @@ package com.example.todolist.ui.fragment.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todolist.data.local.datastore.settings.SettingsDataStore
+import com.example.todolist.data.local.datastore.settings.Theme
 import com.example.todolist.data.model.entity.Task
 import com.example.todolist.data.repository.Repository
+import com.example.todolist.utils.currentThemeMode
+import com.example.todolist.utils.setTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewModelMain @Inject constructor(
     private val repository: Repository,
+    private val settingsDataStore: SettingsDataStore,
 ) : ViewModel() {
     private val _tasksStateFlow = MutableStateFlow<List<Task>>(emptyList())
     val taskStateFlow = _tasksStateFlow.asStateFlow()
@@ -84,6 +89,19 @@ class ViewModelMain @Inject constructor(
 
     fun changeFilter(filter: Filter) {
         this.filter = filter
+    }
+
+    fun changeTheme() {
+        viewModelScope.launch {
+            val mode = currentThemeMode()
+            val nextTheme = if (mode == Theme.LIGHT.mode) {
+                Theme.NIGHT
+            } else {
+                Theme.LIGHT
+            }
+            settingsDataStore.updateTheme(nextTheme)
+            setTheme(nextTheme.mode)
+        }
     }
 
     enum class Filter(
