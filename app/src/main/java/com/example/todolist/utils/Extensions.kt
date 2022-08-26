@@ -84,9 +84,9 @@ fun RadioButton.setup(default: Boolean = false, cb: (Boolean) -> Unit) {
 
 fun TextView.strikeThroughText(has: Boolean) {
     paintFlags = if (has) {
-        paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        Paint.ANTI_ALIAS_FLAG or Paint.STRIKE_THRU_TEXT_FLAG
     } else {
-        paintFlags and -Paint.STRIKE_THRU_TEXT_FLAG
+        Paint.ANTI_ALIAS_FLAG
     }
 
 }

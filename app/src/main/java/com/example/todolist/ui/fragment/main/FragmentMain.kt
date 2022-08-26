@@ -223,8 +223,11 @@ class FragmentMain : Fragment(R.layout.fragmnet_main), OnItemClick<Task>, Holder
         override fun onSwiped(position: Int, direction: Int) {
             if (position != itemAdapter.itemCount) { // block footer
                 val task = itemAdapter.getItem(position)
-                itemAdapter.notifyItemChanged(position)
-                viewModel.check(task, direction == ItemTouchHelper.LEFT)
+                if ((direction == ItemTouchHelper.LEFT) == task.isDone) {
+                    itemAdapter.notifyItemChanged(position)
+                } else {
+                    viewModel.check(task, task.isDone.not())
+                }
             } else {
                 footerAdapter.notifyItemChanged(0)
             }

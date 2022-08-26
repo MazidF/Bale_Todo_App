@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="iconTheme">@drawable/icon_moon</item>
         <item name="backgroundImage">@drawable/bg_mobile_light</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 </resources>
